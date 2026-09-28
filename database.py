@@ -1,11 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
+
 DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/floods-db"
 
-engine = create_engine(
-    DATABASE_URL
-)
+engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(
     autocommit=False,
@@ -15,7 +14,6 @@ SessionLocal = sessionmaker(
 
 Base = declarative_base()
 
-Base.metadata.create_all(bind=engine)
 
 def get_db():
     db = SessionLocal()
@@ -24,5 +22,3 @@ def get_db():
         yield db
     finally:
         db.close()
-
-     
