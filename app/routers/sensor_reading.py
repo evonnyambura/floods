@@ -7,6 +7,7 @@ from database import get_db
 from app.schemas.sensor_reading import SensorReadingCreate, SensorReadingResponse
 from app.services.sensor_reading import create_reading, get_reading, get_readings, get_sensor_readings
 
+
 router = APIRouter(prefix="/sensor-readings", tags=["Sensor Readings"])
 
 
