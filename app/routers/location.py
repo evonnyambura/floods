@@ -6,16 +6,26 @@ from sqlalchemy.orm import Session
 from database import get_db
 from app.models.user import User
 from app.schemas.location import LocationCreate, LocationUpdate, LocationResponse
-from security import require_admin
-from app.services.location import create_location, get_location, get_locations, update_location, deactivate_location
+from security import get_current_user, require_admin
+from app.services.location import (
+    create_location,
+    get_location,
+    get_locations,
+    update_location,
+    deactivate_location,
+)
 
 
 router = APIRouter(prefix="/locations", tags=["Locations"])
 
 
 @router.post("/", response_model=LocationResponse)
-def create(location: LocationCreate, db: Session = Depends(get_db)):
-    return create_location(db, location)
+def create(
+    location: LocationCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    return create_location(db, location, current_user)
 
 
 @router.get("/", response_model=list[LocationResponse])
@@ -24,7 +34,10 @@ def get_all(db: Session = Depends(get_db)):
 
 
 @router.get("/{location_id}", response_model=LocationResponse)
-def get_one(location_id: UUID, db: Session = Depends(get_db)):
+def get_one(
+    location_id: UUID,
+    db: Session = Depends(get_db)
+):
     return get_location(db, location_id)
 
 

@@ -18,6 +18,7 @@ class LocationUpdate(BaseModel):
 
 class LocationResponse(BaseModel):
     location_id: UUID
+    user_id: UUID
     name: str
     latitude: float
     longitude: float

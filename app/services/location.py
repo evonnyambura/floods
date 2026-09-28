@@ -4,6 +4,7 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from app.models.location import Location
+from app.models.user import User
 from app.repositories.location import (
     create_location as create_location_repo,
     get_location as get_location_repo,
@@ -13,12 +14,14 @@ from app.repositories.location import (
 from app.schemas.location import LocationCreate, LocationUpdate
 
 
-def create_location(db: Session, location_data: LocationCreate):
+def create_location(db: Session, location_data: LocationCreate, current_user: User):
     location = Location(
+        user_id=current_user.user_id,
         name=location_data.name,
         latitude=location_data.latitude,
         longitude=location_data.longitude
     )
+
     return create_location_repo(db, location)
 
 

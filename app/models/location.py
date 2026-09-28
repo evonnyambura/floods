@@ -1,7 +1,8 @@
-from sqlalchemy import Column, String, Float, Boolean, DateTime
+from uuid import uuid4
+
+from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
-from uuid import uuid4
 
 from database import Base
 
@@ -10,6 +11,7 @@ class Location(Base):
     __tablename__ = "locations"
 
     location_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4, index=True)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.user_id"), nullable=False)
     name = Column(String(100), nullable=False)
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
